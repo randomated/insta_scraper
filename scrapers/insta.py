@@ -13,11 +13,9 @@ class InstagramScraper:
     self.saver = saver
 
     options = FirefoxOptions()
-    profile = webdriver.FirefoxProfile()
-    profile.set_preference("general.useragent.override", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
-
     options.add_argument('-no-sandbox')
     options.add_argument('-disable-dev-shm-usage')
+    options.add_argument('-private')
 
     if is_headless:
       options.add_argument('-headless')
@@ -25,21 +23,22 @@ class InstagramScraper:
     self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
 
   def start(self, links):
-    try:
-      self.__login()
-    except LinkCannotProcessException as e:
-      self.__log_file(f"LOGIN: {e}")
-    else:
-      for link in links["scrape_list"]:
-        time.sleep(10)
-        try:
-          self.__log_file(f"STARTING: {link['link']}")
-          self.driver.get(link["link"])
-          self.__process(link["stores"])
-        except LinkCannotProcessException as e:
-          self.__log_file(f"An exception occurred in link({link['link']}): {e}")
-        else:
-          self.__log_file(f"No exception occurred in link({link['link']})")
+    # try:
+    #   self.__login()
+    # except LinkCannotProcessException as e:
+    #   self.__log_file(f"LOGIN: {e}")
+    # else:
+    
+    for link in links["scrape_list"]:
+      time.sleep(10)
+      try:
+        self.__log_file(f"STARTING: {link['link']}")
+        self.driver.get(link["link"])
+        self.__process(link["stores"])
+      except LinkCannotProcessException as e:
+        self.__log_file(f"An exception occurred in link({link['link']}): {e}")
+      else:
+        self.__log_file(f"No exception occurred in link({link['link']})")
 
   def close(self):
     self.driver.quit()
