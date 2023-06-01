@@ -214,7 +214,7 @@ if __name__ == '__main__':
   info_logger = Logger('info', current_directory)
   saver = Saver(current_directory)
 
-  scraper = InstagramScraper(False, info_logger, saver)
+  scraper = InstagramScraper(True, info_logger, saver)
   scraper.start(links)
 
   scraper.close()
