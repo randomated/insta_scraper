@@ -20,7 +20,7 @@ class InstagramScraper:
     if is_headless:
       options.add_argument('-headless')
 
-    self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
+    self.driver = webdriver.Firefox(options=options)
 
   def start(self, links):
     # try:
@@ -28,7 +28,7 @@ class InstagramScraper:
     # except LinkCannotProcessException as e:
     #   self.__log_file(f"LOGIN: {e}")
     # else:
-    
+
     for link in links["scrape_list"]:
       time.sleep(10)
       try:
