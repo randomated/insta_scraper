@@ -13,14 +13,16 @@ class InstagramScraper:
     self.saver = saver
 
     options = FirefoxOptions()
+    profile = webdriver.FirefoxProfile()
+    profile.set_preference("general.useragent.override", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+
     options.add_argument('-no-sandbox')
     options.add_argument('-disable-dev-shm-usage')
-    options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36")
 
     if is_headless:
       options.add_argument('-headless')
 
-    self.driver = webdriver.Firefox(options=options)
+    self.driver = webdriver.Firefox(options=options, firefox_profile=profile)
 
   def start(self, links):
     try:

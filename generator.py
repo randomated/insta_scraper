@@ -42,4 +42,3 @@ for line in lines:
     	scrape_list["scrape_list"].append({ "link": data[2], "stores": [ { "store_name": data[0], "wls_id": data[1] } ] })
 
 print(json.dumps(scrape_list, indent=2, ensure_ascii=False))
-
