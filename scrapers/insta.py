@@ -73,9 +73,8 @@ class InstagramScraper:
       raise LinkCannotProcessException(f"Cannot find element error: {e.msg}")
 
   def __process(self, stores):
-
     time.sleep(10)
-    user_agent = driver.execute_script("return navigator.userAgent;")
+    user_agent = self.driver.execute_script("return navigator.userAgent;")
     self.__log_file(f"User-Agent: {user_agent}")
 
     elements_to_find = self.__first_insta_type()
