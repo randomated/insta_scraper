@@ -23,22 +23,21 @@ class InstagramScraper:
     self.driver = webdriver.Firefox(options=options)
 
   def start(self, links):
-    # try:
-    #   self.__login()
-    # except LinkCannotProcessException as e:
-    #   self.__log_file(f"LOGIN: {e}")
-    # else:
-
-    for link in links["scrape_list"]:
-      time.sleep(10)
-      try:
-        self.__log_file(f"STARTING: {link['link']}")
-        self.driver.get(link["link"])
-        self.__process(link["stores"])
-      except LinkCannotProcessException as e:
-        self.__log_file(f"An exception occurred in link({link['link']}): {e}")
-      else:
-        self.__log_file(f"No exception occurred in link({link['link']})")
+    try:
+      self.__login()
+    except LinkCannotProcessException as e:
+      self.__log_file(f"LOGIN: {e}")
+    else:
+      for link in links["scrape_list"]:
+        time.sleep(10)
+        try:
+          self.__log_file(f"STARTING: {link['link']}")
+          self.driver.get(link["link"])
+          self.__process(link["stores"])
+        except LinkCannotProcessException as e:
+          self.__log_file(f"An exception occurred in link({link['link']}): {e}")
+        else:
+          self.__log_file(f"No exception occurred in link({link['link']})")
 
   def close(self):
     self.driver.quit()
@@ -59,6 +58,9 @@ class InstagramScraper:
     except TimeoutException as e:
       raise LinkCannotProcessException(f"Cannot find element error: {e.msg}")
 
+    user_agent = self.driver.execute_script("return navigator.userAgent;")
+    self.__log_file(f"User-Agent: {user_agent}")
+    
     time.sleep(5)
     try:
       submit_button = self.__find_element(self.driver, By.CSS_SELECTOR, 'button[type="submit"]', None, 10, 5, "submit_button")
@@ -74,9 +76,6 @@ class InstagramScraper:
 
   def __process(self, stores):
     time.sleep(10)
-    user_agent = self.driver.execute_script("return navigator.userAgent;")
-    self.__log_file(f"User-Agent: {user_agent}")
-
     elements_to_find = self.__first_insta_type()
     try:
       last_element = None
