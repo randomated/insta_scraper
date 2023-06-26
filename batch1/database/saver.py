@@ -1,6 +1,7 @@
 import os
 import sqlite3
 from datetime import datetime
+import re
 
 class Saver:
   __conn = None
@@ -60,7 +61,10 @@ class Saver:
     scraped_datas = scraped_data_cursor.fetchall()
 
     for index, scraped_data in enumerate(scraped_datas):
-      result.append({ "body": scraped_data[1], "link": scraped_data[2], "images": [], "stores": [] })
+      first_stanzas = scraped_data[1].replace(".\n", "").split("\n")[0]
+      remaining_lines = "".join(scraped_data[1].replace(".\n", "").split("\n")[1:])
+
+      result.append({ "title": first_stanzas, "body": remaining_lines, "link": scraped_data[2], "complete_body": scraped_data[1], "images": [], "stores": [] })
 
       image_link_cursor = self.__conn.cursor()
       image_link_cursor.execute('SELECT * FROM image_links WHERE scraped_data_id = ?;', (scraped_data[0],))

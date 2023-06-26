@@ -1,44 +1,74 @@
-import json
+import os
+import shutil
 
-text = """
-NANGA SHOP HARAJUKU	198	https://www.instagram.com/nanga_official/
-Reebok原宿店（クラシックストア）	176	https://www.instagram.com/reebokjp/
-Reebok渋谷店（フィットハブ＆クラシックストア） 	175	https://www.instagram.com/reebokjp/
-HUMAN MADE Cafe by Blue Bottle Coffee	627	https://www.instagram.com/bluebottlejapan/?hl=ja
-ブルーボトルコーヒー渋谷カフェ	626	https://www.instagram.com/bluebottlejapan/?hl=ja
-ブルーボトルコーヒー広尾カフェ	625	https://www.instagram.com/bluebottlejapan/?hl=ja
-ブルーボトルコーヒー恵比寿カフェ 	624	https://www.instagram.com/bluebottlejapan/?hl=ja
-lululemon Tokyo SIX HARAJUKU TERRACE 	158	https://www.instagram.com/lululemonjp/
-ベネクスショップ髙島屋新宿店	200	https://www.instagram.com/venex_jp/
-Urth Caffe 渋谷スクランブルスクエア店	362	https://www.instagram.com/urthcaffe_japan/?hl=ja
-Urth Caffe 代官山店	361	https://www.instagram.com/urthcaffe_japan/?hl=ja
-Brown Rice by Neal's Yard Remedies	363	https://www.instagram.com/brownrice_tokyo/
-BiOcafe	364	https://www.instagram.com/biocafe_shibuya_official/
-rinato kitchen 代官山本店	367	https://www.instagram.com/rinatokitchen/
-KO-SO CAFE BIORISE	370	https://www.instagram.com/ko.so.cafe/
-キッチン わたりがらす	371	https://www.instagram.com/kitchen_watarigarasu/
-神宮前 らかん・果	374	https://www.instagram.com/jingumaelakanka/
-ＭＯＭＩＮＯＫＩ ＨＯＵＳＥ	375	https://www.instagram.com/mominokihouse_official/
-no.501	376	https://www.instagram.com/no.501.bottletokyo/
-お粥 ワイン 蒸し料理 Fabudine. ファビュダイン	377	https://www.instagram.com/fabudine/
-ハッピーアワー	378	https://www.instagram.com/happy_hour2020/
-アビオファームズマーケット	385	https://www.instagram.com/abio_farms_market/
-フィコ&ポムム ジュース 青山店	386	https://www.instagram.com/ficoandpomum/?ref=badge
-Terra Burger & Bowl	387	https://www.instagram.com/terraburgerandbowl/
-GREEN BROTHERS 恵比寿店	388	https://www.instagram.com/greenbrothers025/
-"""
 
-scrape_list = { "scrape_list": [] }
+def generate_text_code(port):
+  text = f"""import json
+from flask import Flask, Response
+from database.saver import Saver
+import os
 
-lines = text.strip().split('\n')
-for line in lines:
-    data = line.split('\t')
+current_directory = os.path.dirname(os.path.realpath(__file__))
+app = Flask(__name__)
 
-    index = next((index for index, item in enumerate(scrape_list["scrape_list"]) if item["link"] == data[2]), -1)
+class CustomJSONEncoder(json.JSONEncoder):
+  def default(self, obj):
+    if isinstance(obj, str):
+      return obj.encode('utf-8').decode('unicode-escape')
+    return super().default(obj)
 
-    if index != -1:
-    	scrape_list["scrape_list"][index]["stores"].append({ "store_name": data[0], "wls_id": data[1] })
-    else:
-    	scrape_list["scrape_list"].append({ "link": data[2], "stores": [ { "store_name": data[0], "wls_id": data[1] } ] })
+@app.route('/')
+def index():
+  saver = Saver(current_directory)
+  data = saver.fetch_datas()
 
-print(json.dumps(scrape_list, indent=2, ensure_ascii=False))
+  json_data = json.dumps(data, ensure_ascii=False, cls=CustomJSONEncoder)
+  response = Response(json_data, content_type='application/json; charset=utf-8')
+  
+  saver.close_db()
+  return response
+
+if __name__ == '__main__':
+  app.json_provider_class = CustomJSONEncoder
+  app.run(host='0.0.0.0', port={port})"""
+
+  return text
+
+destination_folder = "./toserver"
+if os.path.exists(destination_folder):
+  shutil.rmtree(destination_folder)
+
+os.makedirs(destination_folder, exist_ok=True)
+
+batches = [ 
+  { 
+    "fname": "batch1", 
+    "port": 3001 
+  }, 
+  { 
+    "fname": "batch2", 
+    "port": 3002 
+  }, 
+  { 
+    "fname": "batch3", 
+    "port": 3003 
+  }, 
+  { 
+    "fname": "batch4", 
+    "port": 3004 
+  }, 
+  { 
+    "fname": "batch5", 
+    "port": 3005 
+  } 
+]
+
+for batch in batches:
+  shutil.copytree(f"./{batch['fname']}/database", f"{destination_folder}/{batch['fname']}/database")
+  shutil.copytree(f"./{batch['fname']}/datas", f"{destination_folder}/{batch['fname']}/datas")
+  shutil.copy2(f"./{batch['fname']}/server.py", f"{destination_folder}/{batch['fname']}")
+
+  with open(f"{destination_folder}/{batch['fname']}/server.py", "w") as file:
+    file.write(generate_text_code(3000))
+
+
