@@ -1,5 +1,5 @@
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -12,15 +12,15 @@ class InstagramScraper:
     self.logger = logger
     self.saver = saver
 
-    options = FirefoxOptions()
-    options.add_argument('-no-sandbox')
-    options.add_argument('-disable-dev-shm-usage')
-    options.add_argument('-private')
-
+    options = ChromeOptions()
+    options.add_argument('--incognito')
+    
     if is_headless:
-      options.add_argument('-headless')
-
-    self.driver = webdriver.Firefox(options=options)
+      options.add_argument('--headless')
+      options.add_argument('--no-sandbox')
+      options.add_argument('--disable-dev-shm-usage')
+    
+    self.driver = webdriver.Chrome(options=options)
 
   def start(self, links):
     try:
