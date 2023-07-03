@@ -126,8 +126,8 @@ class InstagramScraper:
       else:
         try:
           h1_text = self.__find_element(self.driver, By.XPATH, './/main/div/div[1]/div/div[2]/div/div[2]/div/div/ul/div/li/div/div/div[2]/div[1]/h1', None, 10, 5, "h1 text")
-        except TimeoutException as eee:
-          raise LinkCannotProcessException(f"Cannot find element error: {ee.msg} -- {e.msg} -- {eee.msg}")
+        except TimeoutException as e:
+          raise LinkCannotProcessException(f"Cannot find element error: {e.msg}")
         else:
           images = []
           images.append(image_tag.get_attribute('src'))
@@ -136,7 +136,7 @@ class InstagramScraper:
       try:
         h1_text = self.__find_element(self.driver, By.XPATH, './/main/div/div[1]/div/div[2]/div/div[2]/div/div/ul/div/li/div/div/div[2]/div[1]/h1', None, 10, 5, "h1 text")
       except TimeoutException as e:
-        raise LinkCannotProcessException(f"Cannot find element error: {ee.msg} -- {e.msg} -- {eee.msg}")
+        raise LinkCannotProcessException(f"Cannot find element error: {e.msg}")
       else:
         images = []
         has_button = True
