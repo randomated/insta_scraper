@@ -10,6 +10,7 @@
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
   } catch (PDOException $e) {
     echo json_encode(array('status' => 'failed', 'message' => 'Connection failed: ' . $e->getMessage()));
+    exit;
   }
 
   $result = array();
