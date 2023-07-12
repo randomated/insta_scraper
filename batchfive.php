@@ -1,4 +1,6 @@
 <?php
+  require_once 'JapaneseTextCutter.php';
+    
   $today = new DateTime();
   $yesterday = $today->sub(new DateInterval('P1D'));
   $formattedDate = $yesterday->format('Y-m-d');
@@ -19,7 +21,8 @@
   while ($scraped_data = $scraped_datas->fetch(PDO::FETCH_ASSOC)) {
     $first_stanzas = explode("\n", str_replace(".\n", "", $scraped_data['body']))[0];
     $remaining_lines = implode("\n", array_slice(explode("\n", str_replace(".\n", "", $scraped_data['body'])), 1));
-
+    $remaining_lines = JapaneseTextCutter::cutText($remaining_lines, 105);
+    
     $result[] = array(
       "title" => $first_stanzas,
       "body" => $remaining_lines,
