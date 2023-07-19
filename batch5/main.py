@@ -289,7 +289,15 @@ if __name__ == '__main__':
           },
         ]
       },
-
+      {
+        "link": "https://www.instagram.com/awesomestore_jp/?hl=ja",
+        "stores": [
+          {
+            "store_name": "AWESOME STORE TOKYO",
+            "wls_id": "220"
+          }
+        ]
+      }
     ]
   }
 
