@@ -240,6 +240,65 @@ if __name__ == '__main__':
             "wls_id": "403"
           }
         ]
+      },
+      {
+        "link": "https://www.instagram.com/saint_marc_cafe_official/",
+        "stores": [
+          {
+            "store_name": "サンマルクカフェ 恵比寿東口店",
+            "wls_id": "602"
+          },
+          {
+            "store_name": "サンマルクカフェ 渋谷公園通り店",
+            "wls_id": "601"
+          },
+          {
+            "store_name": "サンマルクカフェ+R 恵比寿駅前店",
+            "wls_id": "600"
+          },
+          {
+            "store_name": "サンマルクカフェ 代々木上原店",
+            "wls_id": "599"
+          },
+          {
+            "store_name": "サンマルクカフェ 渋谷道玄坂店",
+            "wls_id": "598"
+          },
+        ]
+      },
+      {
+        "link": "https://www.instagram.com/excelsiorcaffe_official/",
+        "stores": [
+          {
+            "store_name": "エクセルシオール カフェ 渋谷宮益坂店",
+            "wls_id": "597"
+          }
+        ]
+      },
+      {
+        "link": "https://www.instagram.com/cafedecrie/",
+        "stores": [
+          {
+            "store_name": "カフェ・ド・クリエ グラン 恵比寿ガーデンプレイス店",
+            "wls_id": "607"
+          },
+          {
+            "store_name": "カフェ・ド・クリエ グラン　渋谷桜丘スクエア店",
+            "wls_id": "606"
+          },
+          {
+            "store_name": "カフェ・ド・クリエ 代々木東口店",
+            "wls_id": "605"
+          },
+          {
+            "store_name": "カフェ・ド・クリエ 南新宿店",
+            "wls_id": "604"
+          },
+          {
+            "store_name": "カフェ・ド・クリエ 渋谷3丁目店",
+            "wls_id": "603"
+          },
+        ]
       }
     ]
   }
