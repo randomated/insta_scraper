@@ -264,10 +264,35 @@ if __name__ == '__main__':
             "wls_id": "336"
           }
         ]
+      },
+      {
+        "link": "https://www.instagram.com/ipsa_jp/",
+        "stores": [
+          {
+            "store_name": "IPSAウィズ原宿 ビューティ・スクエア店",
+            "wls_id": "296"
+          },
+          {
+            "store_name": "IPSA渋谷PARCO店",
+            "wls_id": "295"
+          },
+          {
+            "store_name": "IPSA渋谷スクランブルスクエア店",
+            "wls_id": "294"
+          },
+          {
+            "store_name": "IPSA西武渋谷店",
+            "wls_id": "293"
+          },
+          {
+            "store_name": "IPSA 新宿タカシマヤ",
+            "wls_id": "292"
+          }
+        ]
       }
     ]
   }
-  
+
   current_directory = os.path.dirname(os.path.realpath(__file__))
   info_logger = Logger('info', current_directory)
   saver = Saver(current_directory)
