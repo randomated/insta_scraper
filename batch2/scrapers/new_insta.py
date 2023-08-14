@@ -125,7 +125,7 @@ class InstagramScraper:
         raise LinkCannotProcessException(f"Cannot find element error: {ee.msg} -- {e.msg}")
       else:
         try:
-          h1_text = self.__find_element(self.driver, By.XPATH, './/main/div/div[1]/div/div[2]/div/div[2]/div/div/ul/div/li/div/div/div[2]/div[1]/h1', None, 10, 5, "h1 text")
+          h1_text = self.__find_element(self.driver, By.XPATH, './/main/div/div[1]/div/div[2]/div/div[2]/div/div/div[1]/div/div[2]/div/span/div/span', None, 10, 5, "h1 text")
         except TimeoutException as e:
           raise LinkCannotProcessException(f"Cannot find element error: {e.msg}")
         else:
@@ -134,7 +134,7 @@ class InstagramScraper:
           self.__save_data(new_link, h1_text.text, images, stores)
     else:
       try:
-        h1_text = self.__find_element(self.driver, By.XPATH, './/main/div/div[1]/div/div[2]/div/div[2]/div/div/ul/div/li/div/div/div[2]/div[1]/h1', None, 10, 5, "h1 text")
+        h1_text = self.__find_element(self.driver, By.XPATH, './/main/div/div[1]/div/div[2]/div/div[2]/div/div/div[1]/div/div[2]/div/span/div/span', None, 10, 5, "h1 text")
       except TimeoutException as e:
         raise LinkCannotProcessException(f"Cannot find element error: {e.msg}")
       else:

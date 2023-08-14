@@ -208,7 +208,7 @@ if __name__ == '__main__':
       },
     ]
   }
-  
+
   current_directory = os.path.dirname(os.path.realpath(__file__))
   info_logger = Logger('info', current_directory)
   saver = Saver(current_directory)
