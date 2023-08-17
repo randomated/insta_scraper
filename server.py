@@ -25,35 +25,40 @@ def get_data(batch):
 @app.route('/insta/api/v1/batchone')
 def batchone():
   data = get_data("batch1")
-  json_data = json.dumps(data, ensure_ascii=False, cls=CustomJSONEncoder)
+  json_data = { "status": 'success', "message": "", "data": data }
+  json_data = json.dumps(json_data, ensure_ascii=False, cls=CustomJSONEncoder)
   response = Response(json_data, content_type='application/json; charset=utf-8')
   return response
 
 @app.route('/insta/api/v1/batchtwo')
 def batchtwo():
   data = get_data("batch2")
-  json_data = json.dumps(data, ensure_ascii=False, cls=CustomJSONEncoder)
+  json_data = { "status": 'success', "message": "", "data": data }
+  json_data = json.dumps(json_data, ensure_ascii=False, cls=CustomJSONEncoder)
   response = Response(json_data, content_type='application/json; charset=utf-8')
   return response
 
 @app.route('/insta/api/v1/batchthree')
 def batchthree():
   data = get_data("batch3")
-  json_data = json.dumps(data, ensure_ascii=False, cls=CustomJSONEncoder)
+  json_data = { "status": 'success', "message": "", "data": data }
+  json_data = json.dumps(json_data, ensure_ascii=False, cls=CustomJSONEncoder)
   response = Response(json_data, content_type='application/json; charset=utf-8')
   return response
 
 @app.route('/insta/api/v1/batchfour')
 def batchfour():
   data = get_data("batch4")
-  json_data = json.dumps(data, ensure_ascii=False, cls=CustomJSONEncoder)
+  json_data = { "status": 'success', "message": "", "data": data }
+  json_data = json.dumps(json_data, ensure_ascii=False, cls=CustomJSONEncoder)
   response = Response(json_data, content_type='application/json; charset=utf-8')
   return response
 
 @app.route('/insta/api/v1/batchfive')
 def batchfive():
   data = get_data("batch5")
-  json_data = json.dumps(data, ensure_ascii=False, cls=CustomJSONEncoder)
+  json_data = { "status": 'success', "message": "", "data": data }
+  json_data = json.dumps(json_data, ensure_ascii=False, cls=CustomJSONEncoder)
   response = Response(json_data, content_type='application/json; charset=utf-8')
   return response
 
