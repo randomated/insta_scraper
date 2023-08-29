@@ -64,7 +64,7 @@ class Saver:
       first_stanzas = scraped_data[1].replace(".\n", "").split("\n")[0]
       remaining_lines = "".join(scraped_data[1].replace(".\n", "").split("\n")[1:])
 
-      result.append({ "title": first_stanzas, "body": self.__limit_text(remaining_lines), "link": scraped_data[2], "complete_body": scraped_data[1], "images": [], "stores": [] })
+      result.append({ "title": "", "body": self.__limit_text(scraped_data[1]), "link": scraped_data[2], "complete_body": scraped_data[1], "images": [], "stores": [] })
 
       image_link_cursor = self.__conn.cursor()
       image_link_cursor.execute('SELECT * FROM image_links WHERE scraped_data_id = ?;', (scraped_data[0],))
