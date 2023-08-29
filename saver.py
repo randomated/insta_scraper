@@ -61,21 +61,35 @@ class Saver:
     scraped_datas = scraped_data_cursor.fetchall()
 
     for index, scraped_data in enumerate(scraped_datas):
-      first_stanzas = scraped_data[1].replace(".\n", "").split("\n")[0]
-      remaining_lines = "".join(scraped_data[1].replace(".\n", "").split("\n")[1:])
-
-      result.append({ "title": first_stanzas, "body": self.__limit_text(remaining_lines), "link": scraped_data[2], "complete_body": scraped_data[1], "images": [], "stores": [] })
-
       image_link_cursor = self.__conn.cursor()
       image_link_cursor.execute('SELECT * FROM image_links WHERE scraped_data_id = ?;', (scraped_data[0],))
       image_links = image_link_cursor.fetchall()
 
-      for image_link in image_links:
-        result[index]["images"].append(image_link[2])
-
       store_cursor = self.__conn.cursor()
       store_cursor.execute('SELECT * FROM stores WHERE scraped_data_id = ?', (scraped_data[0],))
       stores = store_cursor.fetchall()
+
+      target_store_names = [
+        "サンマルクカフェ 恵比寿東口店",
+        "サンマルクカフェ+R 恵比寿駅前店",
+        "サンマルクカフェ 代々木上原店",
+        "サンマルクカフェ 渋谷道玄坂店",
+        "サンマルクカフェ 渋谷公園通り店"
+      ]
+
+      fetched_store_names = [store[2] for store in stores]
+
+      all_exist = all(target_store in fetched_store_names for target_store in target_store_names)
+
+      if all_exist:
+        result.append({ "title": "", "body": scraped_data[1], "link": scraped_data[2], "complete_body": scraped_data[1], "images": [], "stores": [] })
+      else:
+        first_stanzas = scraped_data[1].replace(".\n", "").split("\n")[0]
+        remaining_lines = "".join(scraped_data[1].replace(".\n", "").split("\n")[1:])
+        result.append({ "title": first_stanzas, "body": remaining_lines, "link": scraped_data[2], "complete_body": scraped_data[1], "images": [], "stores": [] })
+
+      for image_link in image_links:
+        result[index]["images"].append(image_link[2])
 
       for store in stores:
         result[index]["stores"].append({ "store_name": store[2], "wls_id": store[3] })
